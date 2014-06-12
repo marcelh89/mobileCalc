@@ -17,24 +17,43 @@
     }
 
     function appendInput(val) {
-      userinput = userinput + val;
+      userinput = userinput + '' +val;
       updateCalcField();
     }
 
     function calcResult() {
 
-      try {
-        var result = eval(userinput);
-        userinput = result;
-      } catch(err) {
-        userinput = 'fehlerhafte Eingabe';
-      }
+      performCalc();
       updateCalcField();
     }
 
     function clearInput() {
         userinput = '';
         updateCalcField();
+    }
+
+    function performCalc() {
+      try {
+        var result = eval(userinput);
+        userinput = result;
+      } catch(err) {
+        userinput = 'fehlerhafte Eingabe';
+      }
+    }
+
+    function storageTool(id) {
+        var numStr = id + '';
+        if(localStorage[numStr] && !isNaN(localStorage[numStr])) {
+          userinput = localStorage[numStr];
+          updateCalcField();
+        } else {
+            if(userinput == 0) {
+                localStorage[numStr] = undefined;
+            } else {
+                performCalc();
+                localStorage[numStr] = userinput;
+            }
+        }
     }
 
   </script>
@@ -49,6 +68,14 @@
   <div>
     <input type="text" id="calcfield" readonly="readonly">
 </div>
+
+
+  <div class="ui-grid-d">
+    <div class="ui-block-a"><button onclick="storageTool(1)">S1</button></div>
+    <div class="ui-block-b"><button onclick="storageTool(2)">S2</button></div>
+    <div class="ui-block-c"><button onclick="storageTool(3)">S3</button></div>
+    <div class="ui-block-d"><button onclick="storageTool(4)">S4</button></div>
+  </div><!-- /grid-d -->
 
   <div class="ui-grid-d">
     <div class="ui-block-a"><button onclick="appendInput(7)">7</button></div>
