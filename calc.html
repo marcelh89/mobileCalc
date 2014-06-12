@@ -17,7 +17,12 @@
     }
 
     function appendInput(val) {
-      userinput = userinput + '' +val;
+
+      if(userinput == undefined) {
+        userinput = '' + val;
+      } else {
+        userinput = userinput + '' + val;
+      }
       updateCalcField();
     }
 
@@ -43,16 +48,18 @@
 
     function storageTool(id) {
         var numStr = id + '';
-        if(localStorage[numStr] && !isNaN(localStorage[numStr])) {
-          userinput = localStorage[numStr];
-          updateCalcField();
+
+        if(userinput === "0") {
+            localStorage[numStr] = undefined;
         } else {
-            if(userinput == 0) {
-                localStorage[numStr] = undefined;
-            } else {
-                performCalc();
-                localStorage[numStr] = userinput;
-            }
+
+          if(localStorage[numStr] && !isNaN(localStorage[numStr])) {
+            userinput = localStorage[numStr];
+            updateCalcField();
+          } else {
+            performCalc();
+            localStorage[numStr] = userinput;
+          }
         }
     }
 
