@@ -63,6 +63,44 @@
         }
     }
 
+    function startShakeWatcher() {
+
+      if (typeof window.DeviceMotionEvent != 'undefined') {
+        // Shake sensitivity (a lower number is more)
+        var sensitivity = 20;
+
+        // Position variables
+        var y1 = 0, y2 = 0;
+
+        // Listen to motion events and update the position
+        window.addEventListener('devicemotion', function (e) {
+
+            y1 = e.accelerationIncludingGravity.z;
+
+        }, false);
+
+        // Periodically check the position and fire
+        // if the change is greater than the sensitivity
+        setInterval(function () {
+            var change = Math.abs(y1-y2);
+
+            if (change > sensitivity) {
+                userinput = "";
+                updateCalcField();
+            }
+
+            // Update new position
+
+            y2 = y1;
+
+        }, 150);
+    }
+  }
+
+  $( document ).ready(function() {
+    startShakeWatcher();
+  });
+
   </script>
 </head>
 <body>
